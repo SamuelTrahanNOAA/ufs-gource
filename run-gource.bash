@@ -56,6 +56,7 @@ while getopts "p:s:d:i:o:T:t:c:l:k:f:vh" opt ; do
     esac
 done
 
+days_per_second=$( python -c "print(round(1.0/$seconds_per_day))" )
 log_option='-loglevel warning -stats'
 
 if [[ "${verbose:-NO}" == YES ]] ; then
@@ -73,7 +74,7 @@ if [[ "$temp_dir" == % ]] ; then
 fi
 
 if [[ "$output_file" == % ]] ; then
-    output_file=$PWD/ufs-gource.mp4
+    output_file=$PWD/ufs-${p}p-${days_per_second}x.mp4
 fi
 
 if [[ "$caption" == % ]] ; then
@@ -115,7 +116,6 @@ fi
 set -ue
 
 # Days per second, rounded to nearest int
-days_per_second=$( python -c "print(round(1.0/$seconds_per_day))" )
 
 # Font sizes relative to 1440p
 refp=1440
@@ -165,11 +165,17 @@ if [[ "$fade_in_seconds" -gt 0 ]] ; then
     fade_option="-vf fade=t=in:st=0:d=$fade_in_seconds"
 fi
 
-echo ========================================================================
-echo
+if [[ "${verbose:-NO}" == YES ]] ; then
+    echo ========================================================================
+    echo
+fi
+
 echo Running gource through ffmpeg
-echo
-echo ========================================================================
+
+if [[ "${verbose:-NO}" == YES ]] ; then
+    echo
+    echo ========================================================================
+fi
 
 xvfb-run gource -o - \
        --stop-at-end --user-scale "$user_scale" --disable-input "-$resolution" \
@@ -181,33 +187,45 @@ xvfb-run gource -o - \
        --date-format "$title" --path "$input_file" \
        $logo_option \
        --frameless --no-vsync --hide filenames | \
-ffmpeg $log_option -r 60 -codec ppm -i - -r 60 "$converted"
+ffmpeg $log_option -r 60 -codec ppm -i - $log_option -r 60 "$converted"
 if [[ ! -s "$converted"  ]] ; then
     echo "$converted: gource|ffmpeg did not generate mp4" 1>&2
     exit 1
 fi
 
 echo
-echo ========================================================================
-echo
-echo Applying filters and converting to h265
-echo
-echo ========================================================================
-echo
 
-ffmpeg $log_option $skip_option -i "$converted" $fade_option -codec hevc "$output_file"
+if [[ "${verbose:-NO}" == YES ]] ; then
+    echo ========================================================================
+    echo
+fi
+
+echo Applying filters and converting to h265
+if [[ "${verbose:-NO}" == YES ]] ; then
+    echo
+    echo ========================================================================
+    echo
+fi
+
+ffmpeg $log_option $skip_option -i "$converted" $log_option $fade_option -codec hevc "$output_file"
 if [[ ! -s "$output_file" ]] ; then
     echo "$output_file: ffmpeg could not run filters and convert to h265" 1>&2
     exit 1
 fi
 rm -f "$converted"
 
-echo
-echo ========================================================================
-echo
+if [[ "${verbose:-NO}" == YES ]] ; then
+    echo
+    echo ========================================================================
+    echo
+fi
+
 echo Success\!
-echo
-echo ========================================================================
-echo
+
+if [[ "${verbose:-NO}" == YES ]] ; then
+    echo
+    echo ========================================================================
+    echo
+fi
 
 ls -l "$output_file"
