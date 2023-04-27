@@ -6,12 +6,12 @@ p="${1:-2160}"
 start_date="${2:-2019-12-01 12:00:00}"
 seconds_per_day="${3:-0.14}"
 git_dir=/home/pidgeon/src/ufs-weather-model
-temp_dir=/media/pidgeon/6f1a6fdf-b160-4711-bb5c-daf9d91945c6/pidgeon
+temp_dir="$git_dir"
 output_dir="$git_dir"
 title="UFS Weather Model"
 caption=$( cd "$git_dir" ; git remote get-url origin )
-logo=$HOME/Downloads/UFS-logo-rgb-3c-stacked-150dpi-recolored-cropped.png
 git_log="$git_dir/combined.log"
+
 
 # Days per second, rounded to nearest int
 days_per_second=$( python -c "print(round(1.0/$seconds_per_day))" )
@@ -21,6 +21,11 @@ date_format="%Y-%b-%d"
 days_to_skip=120
 fade_in_seconds=3
 time_to_skip=$( python -c "print(round($days_to_skip*$seconds_per_day))" )
+
+# Should the logo be used?
+# This is disabled by default because it should only be used for official UFS reports.
+use_logo="${5:-NO}"
+logo=$PWD/UFS-logo-recolored-150dpi.png
 
 # Font sizes relative to 1440p
 refp=1440
@@ -55,8 +60,14 @@ rm -f "$h265"
 
 cd "$temp_dir"
 
-convert -geometry "$logo_width" "$logo" "$scaled_logo"
-test -s "$scaled_logo"
+if [[ "${use_logo:-NO}" == YES ]] ; then
+    convert -geometry "$logo_width" "$logo" "$scaled_logo"
+    test -s "$scaled_logo"
+    logo_option="--logo \"$scaled_logo\""
+else
+    logo_option=" "
+fi
+
 xvfb-run gource -o - \
        --stop-at-end --user-scale "$user_scale" --disable-input "-$resolution" \
        --start-date "$start_date" -s "$seconds_per_day" -r 60 \
@@ -64,9 +75,12 @@ xvfb-run gource -o - \
        --dir-font-size "$dir_font_size" --user-font-size "$user_font_size" \
        --bloom-intensity 0.7 --bloom-multiplier 0.7 --title "$caption" \
        --filename-colour "$text_color" --dir-colour "$text_color" \
-       --date-format "$title $date_format" --path "$git_log" --logo "$scaled_logo" \
+       --date-format "$title $date_format" --path "$git_log" \
+       $logo_option \
        --frameless --no-vsync --hide filenames | \
 ffmpeg -r 60 -codec ppm -i - -r 60 "$converted"
 test -s "$converted"
 ffmpeg -ss "$time_to_skip" -i "$converted" -vf "fade=t=in:st=0:d=$fade_in_seconds" -codec hevc "$h265"
 test -s "$h265"
+rm -f "$converted"
+ls -l "$h265"
