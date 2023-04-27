@@ -93,6 +93,11 @@ if [[ "$unscaled_logo" != % ]] && ( ! which convert > /dev/null ) ; then
     exit 1
 fi
 
+if [[ "$unscaled_logo" != % ]] && ( ! test -s "$unscaled_logo" > /dev/null ) ; then
+    echo "$unscaled_logo: is empty or missing" 1>&2
+    exit 1
+fi
+
 if ( ! which gource > /dev/null ) ; then
     echo "Cannot find gource in the \$PATH" 1>&2
     exit 1
@@ -150,10 +155,10 @@ logo_option=" "
 fade_option=" "
 skip_option=" "
 
-if [[ "${use_logo:-NO}" == YES ]] ; then
-    convert -geometry "$logo_width" "$logo" "$scaled_logo"
+if [[ "$unscaled_logo" != % ]] ; then
+    convert -geometry "$logo_width" "$unscaled_logo" "$scaled_logo"
     test -s "$scaled_logo"
-    logo_option="--logo \"$scaled_logo\""
+    logo_option="--logo $scaled_logo"
 fi
 
 if [[ "$days_to_skip" -gt 0 ]] ; then
