@@ -56,8 +56,11 @@ while getopts "p:s:d:i:o:T:t:c:l:k:f:vh" opt ; do
     esac
 done
 
+log_option='-loglevel warning -stats'
+
 if [[ "${verbose:-NO}" == YES ]] ; then
     set -x
+    log_option=' '
 fi
 
 # Apply defaults
@@ -74,37 +77,37 @@ if [[ "$output_file" == % ]] ; then
 fi
 
 if [[ "$caption" == % ]] ; then
-    caption=$( cd $( dirname "$input_file" ) && git get-url origin )
+    caption=$( cd $( dirname "$input_file" ) && git remote get-url origin )
     caption="${caption:-%}"
 fi
 
 # Check for required software
-if ( ! which python ) ; then
+if ( ! which python > /dev/null ) ; then
     echo "Cannot find python in the \$PATH" 1>&2
     exit 1
 fi
 
-if [[ "$unscaled_logo" != % ]] && ( ! which convert ) ; then
+if [[ "$unscaled_logo" != % ]] && ( ! which convert > /dev/null ) ; then
     echo "Cannot find convert (Imagemagick) in the \$PATH" 1>&2
     exit 1
 fi
 
-if ( ! which gource ) ; then
+if ( ! which gource > /dev/null ) ; then
     echo "Cannot find gource in the \$PATH" 1>&2
     exit 1
 fi
 
-if ( ! which ffmpeg ) ; then
+if ( ! which ffmpeg > /dev/null ) ; then
     echo "Cannot find ffmpeg in the \$PATH" 1>&2
     exit 1
 fi
 
-if( ! ffmpeg -codecs | grep hevc ) ; then
+if( ! ffmpeg -codecs 2> /dev/null | grep hevc > /dev/null ) ; then
     echo "Your ffmpeg is missing the hevc (h265) codec!" 1>&2
     exit 1
 fi
 
-if ( ! which xvfb-run ) ; then
+if ( ! which xvfb-run > /dev/null ) ; then
     echo "Cannot find xvfb-run in the \$PATH" 1>&2
     exit 1
 fi
@@ -178,7 +181,7 @@ xvfb-run gource -o - \
        --date-format "$title" --path "$input_file" \
        $logo_option \
        --frameless --no-vsync --hide filenames | \
-ffmpeg -r 60 -codec ppm -i - -r 60 "$converted"
+ffmpeg $log_option -r 60 -codec ppm -i - -r 60 "$converted"
 if [[ ! -s "$converted"  ]] ; then
     echo "$converted: gource|ffmpeg did not generate mp4" 1>&2
     exit 1
@@ -192,7 +195,7 @@ echo
 echo ========================================================================
 echo
 
-ffmpeg $skip_option -i "$converted" $fade_option -codec hevc "$output_file"
+ffmpeg $log_option $skip_option -i "$converted" $fade_option -codec hevc "$output_file"
 if [[ ! -s "$output_file" ]] ; then
     echo "$output_file: ffmpeg could not run filters and convert to h265" 1>&2
     exit 1
