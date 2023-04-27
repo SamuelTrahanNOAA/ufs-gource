@@ -140,7 +140,7 @@ output_dir=$( dirname "$output_file" )
 
 test -d "$temp_dir" || mkdir -p "$temp_dir"
 test -d "$output_dir" || mkdir -p "$output_dir"
-#rm -f "$converted"
+rm -f "$converted"
 rm -f "$output_file"
 
 logo_option=" "
@@ -168,22 +168,22 @@ echo Running gource through ffmpeg
 echo
 echo ========================================================================
 
-# xvfb-run gource -o - \
-#        --stop-at-end --user-scale "$user_scale" --disable-input "-$resolution" \
-#        --start-date "$start_date" -s "$seconds_per_day" -r 60 \
-#        --font-size "$font_size" --file-font-size "$file_font_size" \
-#        --dir-font-size "$dir_font_size" --user-font-size "$user_font_size" \
-#        --bloom-intensity 0.7 --bloom-multiplier 0.7 --title "$caption" \
-#        --filename-colour "$text_color" --dir-colour "$text_color" \
-#        --date-format "$title" --path "$input_file" \
-#        $logo_option \
-#        --frameless --no-vsync --hide filenames | \
-# ffmpeg -r 60 -codec ppm -i - -r 60 "$converted"
-# if [[ ! -s "$converted"  ]] ; then
-#     echo "$converted: gource|ffmpeg did not generate mp4" 1>&2
-#     exit 1
-# fi
-converted=/home/pidgeon/src/run-ufs-gource/ufs-gource/converted-164591-22367-gource.mp4
+xvfb-run gource -o - \
+       --stop-at-end --user-scale "$user_scale" --disable-input "-$resolution" \
+       --start-date "$start_date" -s "$seconds_per_day" -r 60 \
+       --font-size "$font_size" --file-font-size "$file_font_size" \
+       --dir-font-size "$dir_font_size" --user-font-size "$user_font_size" \
+       --bloom-intensity 0.7 --bloom-multiplier 0.7 --title "$caption" \
+       --filename-colour "$text_color" --dir-colour "$text_color" \
+       --date-format "$title" --path "$input_file" \
+       $logo_option \
+       --frameless --no-vsync --hide filenames | \
+ffmpeg -r 60 -codec ppm -i - -r 60 "$converted"
+if [[ ! -s "$converted"  ]] ; then
+    echo "$converted: gource|ffmpeg did not generate mp4" 1>&2
+    exit 1
+fi
+
 echo
 echo ========================================================================
 echo
