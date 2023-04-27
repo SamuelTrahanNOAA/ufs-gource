@@ -1,6 +1,17 @@
 #! /bin/bash
 
+if [[ $# != 1 ]] ; then
+    echo "Synopsis: $0 /path/to/ufs-weather-model"
+    echo
+    echo "  Will create combined.log in that directory, containing"
+    echo "  gource-format commit logs for ufs-weather-model and"
+    echo "  some of its component repositories."
+    exit 1
+fi
+
 set -xue
+
+cd "$1"
 
 cat<<EOF > submodules.lst
 WW3
@@ -90,3 +101,5 @@ cat uncorrected.log | perl -ne '
 ' > unsorted.log
 
 sort -t '|' -nk1,1 < unsorted.log > combined.log
+test -s combined.log
+wc -l combined.log
