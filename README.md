@@ -42,6 +42,16 @@ NVMe drive. It took 43 minutes to generate the full-resolution video.
 7. xvfb-run - a headless X11 server; reduces choppiness
 8. /usr/bin/python (2 or 3) - used for floating-point calculations of font sizes and durations
 
+## UFS Logo Usage Restrictions
+
+Although this software is CC0 (public domain), the UFS logo
+in `UFS-logo-recolored-150dpi.png` has usage restrictiosn. It is a
+trademark, and the CC0 public domain declaration does not release
+trademark rights. Read the LICENSE.md for details. Do not use the
+UFS logo without permission from the UFS Community
+(https://ufscommunity.org). Read `UFS-logo-recolored-150dpi.license`
+for details.
+
 ## Instructions
 
 1. Clone the UFS Weather Model recursively: `git clone --recursive https://github.com/ufs-community/ufs-weather-model`
