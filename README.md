@@ -11,7 +11,7 @@ Weather Model and its components.
 I strongly recommend generating the full-resolution (4k) video
 since Google can't process lower resolutions effectively. Google will
 convert this to lower-resolution videos. The 1080p (HD) video
-Google genertes is of high quality, and the 720p still allows usernames
+Google generates is of high quality, and the 720p still allows usernames
 to be clearly visible.
 
 ### System Requirements for Full Resolution Video
