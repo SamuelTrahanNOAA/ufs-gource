@@ -1,14 +1,26 @@
 Unified Forecast System Gource Video Generator
 ==============================================
 
-These scripts generate a 4k Gource visualization video of the UFS
+These configurable scripts generate a Gource visualization of the UFS
 Weather Model and its components.
 
-### Requirements
+## Requirements
+
+### Suggested Resolution
+
+I strongly recommend generating the full-resolution (4k) video
+since Google can't process lower resolutions effectively. Google will
+convert this to lower-resolution videos. The 1080p (HD) video
+Google genertes is of high quality, and the 720p still allows usernames
+to be clearly visible.
+
+### System Requirements for Full Resolution VIdeo
 
 Most laptops are not suitable to run this. You need a workstation or
 server. A full node on a cloud provider or supercomputer should be
 sufficient.
+
+For the 4k video:
 
 - 32 GB of RAM
 - 1 GB of disk
@@ -19,7 +31,7 @@ The development machine had 96 GB of RAM, 16 Intel Skylake physical
 cores (32 logical), one NVIDIA 2080 GPU with 8GB of video RAM, and an
 NVMe drive. It took 43 minutes to generate the full-resolution video.
 
-Software requirements:
+### Software Requirements
 
 1. Bash
 2. Imagemagick, if a logo is used
@@ -30,7 +42,7 @@ Software requirements:
 7. xvfb-run - a headless X11 server; reduces choppiness
 8. /usr/bin/python (2 or 3) - used for floating-point calculations of font sizes and durations
 
-### Instructions
+## Instructions
 
 1. Clone the UFS Weather Model recursively: `git clone --recursive https://github.com/ufs-community/ufs-weather-model`
 2. Generate the combined commit log: `./make-commit-log.sh $PWD/ufs-weather-model`
@@ -74,3 +86,12 @@ It takes Google Drive a few hours to display a newly-uploaded video at
 1080p. This is because Google re-processes the videos using their
 internal software. You can expect similar delays on youtube, for the
 same reason.
+
+Gource's bloom (the glow around nodes) reduces compression artifacts
+and improves the compression ratio. It is most effective when rendered
+at full resolution (2168p AKA 4k).
+
+Although I'm calling 4k "full resolution," you can generate higher-resolution
+videos. Make sure you only use standard resolutions such as 4320p (8k).
+Otherwise, Google won't know what to do with the video and you may get
+unexpected results.
