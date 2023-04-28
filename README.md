@@ -40,7 +40,7 @@ NVMe drive. It took 43 minutes to generate the full-resolution video.
 5. libx264 - an h264 codec for ffmpeg, used for an intermediate file
 6. libx265 - an h265 codec for ffmpeg, used for the final file
 7. xvfb-run - a headless X11 server; reduces choppiness
-8. /usr/bin/python (2 or 3) - used for floating-point calculations of font sizes and durations
+8. /usr/bin/python - any version; only used for floating-point calculations of font sizes and durations
 
 ## UFS Logo Usage Restrictions
 
