@@ -14,7 +14,7 @@ convert this to lower-resolution videos. The 1080p (HD) video
 Google genertes is of high quality, and the 720p still allows usernames
 to be clearly visible.
 
-### System Requirements for Full Resolution VIdeo
+### System Requirements for Full Resolution Video
 
 Most laptops are not suitable to run this. You need a workstation or
 server. A full node on a cloud provider or supercomputer should be
