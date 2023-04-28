@@ -6,11 +6,18 @@ Weather Model and its components.
 
 ### Requirements
 
-Most laptops are not suitable to run this. You need a workstation or server.
+Most laptops are not suitable to run this. You need a workstation or
+server. A full node on a cloud provider or supercomputer should be
+sufficient.
 
 - 32 GB of RAM
 - 1 GB of disk
 - a ton of CPU
+- ideally, a high-end GPU (or several tons of CPU)
+
+The development machine had 96 GB of RAM, 16 Intel Skylake physical
+cores (32 logical), one NVIDIA 2080 GPU with 8GB of video RAM, and an
+NVMe drive.
 
 Software requirements:
 
