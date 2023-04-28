@@ -17,7 +17,7 @@ sufficient.
 
 The development machine had 96 GB of RAM, 16 Intel Skylake physical
 cores (32 logical), one NVIDIA 2080 GPU with 8GB of video RAM, and an
-NVMe drive.
+NVMe drive. It took 43 minutes to generate the full-resolution video.
 
 Software requirements:
 
