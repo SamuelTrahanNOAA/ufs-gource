@@ -53,3 +53,24 @@ The UFS logo is in `UFS-logo-recolored-150dpi.png`. Do not use it
 without permission of the UFS Community.
 
 There are many other options in the script, detailed by its usage message.
+
+### Implementation Notes
+
+I strongly recommend generating the video at 2160p (4K) viewing the
+video at 1080p (HD) or higher. The usernames are still clearly visible
+at 720p, but the directory names are hard to read. It looks
+spectacular at 4k on a 4k monitor.
+
+By default, the scripts do not include the UFS logo. You have to
+provide the path to the logo to the "-l" option. The logo is a UFS
+trademark and cannot be used without the permission of the UFS
+Community (https://ufscommunity.org).
+
+Google Drive and Google Photos will only display videos at 360p, 720p,
+and 1080p. If this is uploaded to youtube, it'll be viewable at
+resolutions from 180p to 2160p (4k).
+
+It takes Google Drive a few hours to display a newly-uploaded video at
+1080p. This is because Google re-processes the videos using their
+internal software. You can expect similar delays on youtube, for the
+same reason.
