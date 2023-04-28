@@ -50,7 +50,7 @@ directories. This will render a 1440p video in `/path/to/output.mp4`:
 ```
 
 The UFS logo is in `UFS-logo-recolored-150dpi.png`. Do not use it
-without permission of the UFS Community.
+without permission of the UFS Community (https://ufscommunity.org).
 
 There are many other options in the script, detailed by its usage message.
 
