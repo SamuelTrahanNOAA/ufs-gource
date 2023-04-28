@@ -45,7 +45,7 @@ NVMe drive. It took 43 minutes to generate the full-resolution video.
 ## UFS Logo Usage Restrictions
 
 Although this software is CC0 (public domain), the UFS logo
-in `UFS-logo-recolored-150dpi.png` has usage restrictiosn. It is a
+in `UFS-logo-recolored-150dpi.png` has usage restrictions. It is a
 trademark, and the CC0 public domain declaration does not release
 trademark rights. Read the LICENSE.md for details. Do not use the
 UFS logo without permission from the UFS Community
