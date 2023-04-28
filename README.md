@@ -99,7 +99,7 @@ same reason.
 
 Gource's bloom (the glow around nodes) reduces compression artifacts
 and improves the compression ratio. It is most effective when rendered
-at full resolution (2168p AKA 4k).
+at full resolution (2160p AKA 4k).
 
 Although I'm calling 4k "full resolution," you can generate higher-resolution
 videos. Make sure you only use standard resolutions such as 4320p (8k).
